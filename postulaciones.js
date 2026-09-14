@@ -1,39 +1,44 @@
 const {
-  ActionRowBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  EmbedBuilder,
-  StringSelectMenuBuilder,
   ChannelType,
-  PermissionFlagsBits
+  PermissionFlagsBits,
+  EmbedBuilder,
+  ActionRowBuilder,
+  StringSelectMenuBuilder,
+  ButtonBuilder,
+  ButtonStyle
 } = require("discord.js");
 
 const config = require("./config");
 const database = require("./database");
+
+// ═══════════════════════════════════════
+// 👑 PREGUNTAS DE POSTULACIONES
+// ═══════════════════════════════════════
 
 const APPLICATION_TYPES = {
   staff: {
     name: "Staff",
     emoji: "👮",
     channel: config.applications.channels.staff,
+
     questions: [
-      "¿Cuál es tu nombre o apodo?",
-      "¿Cuántos años tienes?",
-      "¿Cuál es tu zona horaria?",
+      "¿Cuál es tu nombre o cómo prefieres que te llamemos?",
+      "¿Qué edad tienes?",
       "¿Cuánto tiempo llevas en el servidor?",
       "¿Por qué quieres formar parte del Staff?",
-      "¿Qué experiencia tienes como Staff?",
-      "¿Qué cargos de moderación has tenido anteriormente?",
-      "¿Qué funciones consideras importantes para un Staff?",
-      "¿Cómo actuarías ante una discusión entre dos miembros?",
-      "¿Qué harías si un amigo incumple las reglas?",
-      "¿Cómo actuarías ante un usuario que provoca al Staff?",
+      "¿Qué experiencia tienes como moderador o staff?",
+      "¿Qué harías si dos usuarios empiezan una discusión?",
+      "¿Qué harías si un amigo tuyo rompe las reglas?",
+      "¿Cómo actuarías ante un usuario que insulta repetidamente?",
+      "¿Qué harías si otro miembro del Staff abusa de sus permisos?",
+      "¿Qué significa para ti ser imparcial?",
+      "¿Cómo reaccionas cuando un usuario no está de acuerdo con una sanción?",
+      "¿Qué disponibilidad tienes para ayudar en el servidor?",
+      "¿Qué cualidades crees que debe tener un buen Staff?",
+      "¿Cómo trabajarías en equipo con los demás miembros del Staff?",
       "¿Qué harías ante una situación que no sabes resolver?",
-      "¿Qué tan activo puedes ser en el servidor?",
-      "¿Cuántas horas aproximadamente puedes dedicar al servidor?",
-      "¿Cómo trabajarías en equipo con los demás Staff?",
-      "¿Qué aportarías al equipo Staff?",
-      "¿Por qué deberíamos aceptarte?"
+      "¿Por qué deberíamos elegirte a ti?",
+      "¿Hay algo más que quieras añadir sobre tu postulación?"
     ]
   },
 
@@ -41,24 +46,25 @@ const APPLICATION_TYPES = {
     name: "Periodista",
     emoji: "📰",
     channel: config.applications.channels.journalist,
+
     questions: [
-      "¿Cuál es tu nombre o apodo?",
-      "¿Cuántos años tienes?",
-      "¿Cuál es tu zona horaria?",
+      "¿Cuál es tu nombre o cómo prefieres que te llamemos?",
+      "¿Qué edad tienes?",
       "¿Cuánto tiempo llevas en el servidor?",
       "¿Por qué quieres ser Periodista?",
-      "¿Tienes experiencia creando noticias o contenido?",
-      "¿Qué tipo de contenido te gustaría publicar?",
-      "¿Cómo comprobarías que una noticia es verdadera?",
-      "¿Qué harías si recibes información falsa?",
-      "¿Cómo presentarías una noticia importante?",
-      "¿Qué herramientas utilizas para crear contenido?",
-      "¿Tienes experiencia editando imágenes o vídeos?",
+      "¿Tienes experiencia redactando noticias o contenido?",
+      "¿Qué tipo de noticias te gustaría publicar?",
+      "¿Cómo comprobarías que una noticia es verdadera antes de publicarla?",
+      "¿Qué harías si recibes información que podría ser falsa?",
+      "¿Cómo presentarías una noticia de forma neutral?",
+      "¿Qué importancia tiene citar las fuentes?",
+      "¿Cómo reaccionarías si alguien critica una noticia que publicaste?",
+      "¿Qué harías si descubres un error después de publicar una noticia?",
+      "¿Con qué frecuencia podrías aportar contenido?",
+      "¿Qué ideas tienes para mejorar la sección de noticias?",
       "¿Cómo trabajarías con otros periodistas?",
-      "¿Qué harías si alguien pide publicar información privada?",
-      "¿Cuánto tiempo puedes dedicar al área de Periodismo?",
-      "¿Qué aportarías al equipo?",
-      "¿Por qué deberíamos aceptarte?"
+      "¿Por qué deberíamos aceptarte como Periodista?",
+      "¿Hay algo más que quieras añadir sobre tu postulación?"
     ]
   },
 
@@ -66,74 +72,70 @@ const APPLICATION_TYPES = {
     name: "Economía",
     emoji: "💰",
     channel: config.applications.channels.economy,
+
     questions: [
-      "¿Cuál es tu nombre o apodo?",
-      "¿Cuántos años tienes?",
-      "¿Cuál es tu zona horaria?",
+      "¿Cuál es tu nombre o cómo prefieres que te llamemos?",
+      "¿Qué edad tienes?",
       "¿Cuánto tiempo llevas en el servidor?",
-      "¿Por qué quieres entrar al área de Economía?",
-      "¿Qué experiencia tienes administrando sistemas económicos?",
+      "¿Por qué quieres formar parte del área de Economía?",
+      "¿Tienes experiencia administrando sistemas económicos?",
       "¿Qué entiendes por una economía equilibrada?",
-      "¿Cómo evitarías una inflación excesiva?",
-      "¿Cómo controlarías la cantidad de dinero existente?",
-      "¿Qué harías ante una economía desequilibrada?",
-      "¿Cómo detectarías posibles abusos económicos?",
-      "¿Cómo actuarías ante un error económico?",
-      "¿Qué ideas tienes para mejorar la economía?",
-      "¿Cómo trabajarías con otros miembros del equipo?",
-      "¿Qué tan activo puedes ser?",
-      "¿Qué aportarías al área de Economía?",
-      "¿Por qué deberíamos aceptarte?"
+      "¿Cómo evitarías una inflación excesiva dentro del servidor?",
+      "¿Cómo controlarías la cantidad de dinero que entra y sale?",
+      "¿Qué harías si detectas una actividad económica sospechosa?",
+      "¿Cómo actuarías ante un posible abuso del sistema económico?",
+      "¿Qué ideas tienes para mejorar la economía del servidor?",
+      "¿Cómo trabajarías con otros miembros del equipo de Economía?",
+      "¿Cómo comprobarías que una modificación económica es segura?",
+      "¿Qué harías si una decisión económica genera problemas?",
+      "¿Qué disponibilidad tienes para revisar el sistema?",
+      "¿Por qué deberíamos elegirte para Economía?",
+      "¿Hay algo más que quieras añadir sobre tu postulación?"
     ]
   }
 };
+
+// ═══════════════════════════════════════
+// 📋 PANEL DE POSTULACIONES
+// ═══════════════════════════════════════
 
 function buildApplicationPanel() {
   const embed = new EmbedBuilder()
     .setTitle("♛ 𝑲𝒊𝒏𝒈 𝒕𝒉𝒆 𝑳𝒂𝒏𝒅 ♛")
     .setDescription(
       [
-        "👑 **Centro de Postulaciones**",
         "",
-        "¿Quieres formar parte del equipo de **King the Land**?",
+        "👑 **POSTULACIONES**",
         "",
-        "Selecciona el área a la que deseas postularte:",
+        "Selecciona el área a la que deseas postularte.",
         "",
         "👮 **Staff**",
-        "Forma parte del equipo encargado de ayudar y moderar el servidor.",
-        "",
         "📰 **Periodista**",
-        "Participa en noticias, novedades y contenido del servidor.",
-        "",
         "💰 **Economía**",
-        "Ayuda a gestionar y mejorar el sistema económico.",
-        "",
-        "✨ La postulación será realizada mediante MD."
+        ""
       ].join("\n")
     )
-    .setFooter({
-      text: "KING SUPPORT • Postulaciones"
-    });
+    .setColor(0x5865f2);
 
   const menu = new StringSelectMenuBuilder()
-    .setCustomId("application_type")
+    .setCustomId("application_select")
     .setPlaceholder("Selecciona una postulación")
     .addOptions(
       {
         label: "Staff",
-        description: "Postúlate para formar parte del Staff.",
+        description: "Postulación para formar parte del Staff",
         value: "staff",
         emoji: "👮"
       },
       {
         label: "Periodista",
-        description: "Postúlate para el área de Periodismo.",
+        description: "Postulación para formar parte de Periodistas",
         value: "journalist",
         emoji: "📰"
       },
       {
         label: "Economía",
-        description: "Postúlate para el área de Economía.",
+        description: "Postulación para el área de Economía",
         value: "economy",
         emoji: "💰"
       }
@@ -147,25 +149,31 @@ function buildApplicationPanel() {
   };
 }
 
+// ═══════════════════════════════════════
+// 📋 CONFIGURAR PANEL
+// ═══════════════════════════════════════
+
 async function setupPanel(client) {
   const channel = await client.channels.fetch(
     config.channels.postulationPanel
-  );
+  ).catch(() => null);
 
-  if (!channel || channel.type !== ChannelType.GuildText) {
-    throw new Error(
-      "❌ El canal del panel de postulaciones no es válido."
+  if (!channel) {
+    console.error(
+      "❌ No se encontró el canal del panel de postulaciones."
     );
+    return;
   }
 
   const messages = await channel.messages.fetch({
-    limit: 50
+    limit: 100
   });
 
   const existing = messages.find(
     message =>
       message.author.id === client.user.id &&
-      message.embeds?.[0]?.title === "♛ 𝑲𝒊𝒏𝒈 𝒕𝒉𝒆 𝑳𝒂𝒏𝒅 ♛"
+      message.embeds?.[0]?.title ===
+        "♛ 𝑲𝒊𝒏𝒈 𝒕𝒉𝒆 𝑳𝒂𝒏𝒅 ♛"
   );
 
   const panel = buildApplicationPanel();
@@ -175,37 +183,70 @@ async function setupPanel(client) {
     return existing;
   }
 
-  return channel.send(panel);
+  return await channel.send(panel);
 }
 
-async function setupApplicationChannels(guild) {
-  if (!config.applications.autoCreateChannels) return;
+// ═══════════════════════════════════════
+// 📁 CREAR CANALES DE POSTULACIONES
+// ═══════════════════════════════════════
 
-  const categoryName = "📋・POSTULACIONES";
+async function setupApplicationChannels(guild) {
+  if (!config.applications.autoCreateChannels) {
+    return;
+  }
+
+  const reviewRole = await guild.roles.fetch(
+    config.roles.postulationReview
+  ).catch(() => null);
+
+  if (!reviewRole) {
+    console.error(
+      "❌ No se encontró el rol de revisión de postulaciones."
+    );
+    return;
+  }
 
   let category = guild.channels.cache.find(
     channel =>
       channel.type === ChannelType.GuildCategory &&
-      channel.name === categoryName
+      channel.name === "📋・POSTULACIONES"
   );
 
   if (!category) {
     category = await guild.channels.create({
-      name: categoryName,
-      type: ChannelType.GuildCategory
+      name: "📋・POSTULACIONES",
+      type: ChannelType.GuildCategory,
+      permissionOverwrites: [
+        {
+          id: guild.roles.everyone.id,
+          deny: [
+            PermissionFlagsBits.ViewChannel
+          ]
+        },
+        {
+          id: reviewRole.id,
+          allow: [
+            PermissionFlagsBits.ViewChannel,
+            PermissionFlagsBits.SendMessages,
+            PermissionFlagsBits.ReadMessageHistory
+          ]
+        }
+      ]
     });
   }
 
-  for (const application of Object.values(APPLICATION_TYPES)) {
+  for (const type of Object.values(
+    APPLICATION_TYPES
+  )) {
     let channel = guild.channels.cache.find(
-      channel =>
-        channel.name === application.channel &&
-        channel.parentId === category.id
+      c =>
+        c.type === ChannelType.GuildText &&
+        c.name === type.channel
     );
 
     if (!channel) {
       channel = await guild.channels.create({
-        name: application.channel,
+        name: type.channel,
         type: ChannelType.GuildText,
         parent: category.id,
         permissionOverwrites: [
@@ -216,7 +257,7 @@ async function setupApplicationChannels(guild) {
             ]
           },
           {
-            id: config.roles.postulationReview,
+            id: reviewRole.id,
             allow: [
               PermissionFlagsBits.ViewChannel,
               PermissionFlagsBits.SendMessages,
@@ -225,363 +266,625 @@ async function setupApplicationChannels(guild) {
           }
         ]
       });
-
-      await channel.send({
-        embeds: [
-          new EmbedBuilder()
-            .setTitle(`${application.emoji} Postulaciones de ${application.name}`)
-            .setDescription(
-              `Aquí aparecerán las postulaciones de **${application.name}**.\n\nSolo el personal autorizado puede revisarlas.`
-            )
-            .setFooter({
-              text: "KING SUPPORT"
-            })
-        ]
-      });
     }
   }
 }
 
-async function startApplication(interaction, type) {
-  const application = APPLICATION_TYPES[type];
+// ═══════════════════════════════════════
+// 👑 INICIAR POSTULACIÓN
+// ═══════════════════════════════════════
 
-  if (!application) {
-    return interaction.reply({
-      content: "❌ Tipo de postulación inválido.",
-      ephemeral: true
-    });
-  }
+async function startApplication(
+  interaction,
+  type
+) {
+  const applicationType =
+    APPLICATION_TYPES[type];
 
-  const existing = database.findApplicationByUser(
-    interaction.user.id
-  );
-
-  if (existing && existing.status === "pending") {
-    return interaction.reply({
+  if (!applicationType) {
+    await interaction.reply({
       content:
-        "❌ Ya tienes una postulación pendiente. Espera a que sea revisada.",
+        "❌ Tipo de postulación inválido.",
       ephemeral: true
     });
+
+    return true;
   }
 
-  database.createApplication(interaction.user.id, {
-    id: `${interaction.user.id}-${Date.now()}`,
-    userId: interaction.user.id,
-    username: interaction.user.username,
-    type: application.name,
-    typeKey: type,
-    status: "answering",
-    currentQuestion: 0,
-    answers: [],
-    createdAt: new Date().toISOString()
-  });
-
-  await interaction.reply({
-    content:
-      "📩 Te he enviado un MD para comenzar tu postulación.",
-    ephemeral: true
-  });
-
-  try {
-    await interaction.user.send(
-      [
-        `👑 **KING SUPPORT — Postulación de ${application.name}**`,
-        "",
-        `Vas a responder **${application.questions.length} preguntas**.`,
-        "",
-        "📌 Responde una pregunta a la vez.",
-        "📌 No cierres el MD hasta terminar.",
-        "",
-        `**Pregunta 1/${application.questions.length}:**`,
-        application.questions[0]
-      ].join("\n")
+  // 🚫 Comprobar si ya tiene una postulación activa
+  const existing =
+    database.findApplicationByUser(
+      interaction.user.id
     );
-  } catch {
-    database.updateApplication(
-      database.getApplication(
-        interaction.user.id
-      )?.id,
+
+  if (
+    existing &&
+    (
+      existing.status === "active" ||
+      existing.status === "in_progress"
+    )
+  ) {
+    await interaction.reply({
+      content:
+        `❌ Ya tienes una postulación activa para **${existing.type}**.`,
+      ephemeral: true
+    });
+
+    return true;
+  }
+
+  const applicationId =
+    `${interaction.user.id}-${Date.now()}`;
+
+  const application =
+    database.createApplication(
+      applicationId,
       {
-        status: "cancelled"
+        id: applicationId,
+        userId: interaction.user.id,
+        type: applicationType.name,
+        typeKey: type,
+        status: "active",
+        currentQuestion: 0,
+        answers: [],
+        createdAt: new Date().toISOString()
       }
     );
 
-    return interaction.followUp({
-      content:
-        "❌ No pude enviarte un MD. Activa los mensajes directos e inténtalo nuevamente.",
-      ephemeral: true
-    });
-  }
-}
+  await interaction.reply({
+    content:
+      "📩 Te he enviado la primera pregunta por MD.",
+    ephemeral: true
+  });
 
-async function handleDirectMessage(message, client) {
-  if (message.author.bot) return;
+  const user =
+    await interaction.client.users.fetch(
+      interaction.user.id
+    );
 
-  const application = database.findApplicationByUser(
-    message.author.id
+  await sendNextQuestion(
+    user,
+    application
   );
 
-  if (!application || application.status !== "answering") {
+  return true;
+}
+
+// ═══════════════════════════════════════
+// ❓ ENVIAR SIGUIENTE PREGUNTA
+// ═══════════════════════════════════════
+
+async function sendNextQuestion(
+  user,
+  application
+) {
+  const type =
+    APPLICATION_TYPES[
+      application.typeKey
+    ];
+
+  if (!type) {
     return;
   }
 
-  const type = APPLICATION_TYPES[application.typeKey];
+  const questionIndex =
+    application.currentQuestion;
 
-  if (!type) return;
+  const question =
+    type.questions[questionIndex];
 
-  const answer = message.content.trim();
+  if (!question) {
+    return;
+  }
+
+  const total =
+    type.questions.length;
+
+  const embed = new EmbedBuilder()
+    .setTitle(
+      `${type.emoji} Postulación • ${type.name}`
+    )
+    .setDescription(
+      [
+        `**Pregunta ${questionIndex + 1}/${total}**`,
+        "",
+        question,
+        "",
+        "✏️ Responde directamente a este mensaje."
+      ].join("\n")
+    )
+    .setColor(0x5865f2)
+    .setFooter({
+      text: "KING SUPPORT • Postulaciones"
+    });
+
+  await user.send({
+    embeds: [embed]
+  });
+}
+
+// ═══════════════════════════════════════
+// 📩 RESPUESTAS POR MD
+// ═══════════════════════════════════════
+
+async function handleDirectMessage(
+  message,
+  client
+) {
+  if (message.author.bot) {
+    return false;
+  }
+
+  const application =
+    database.findApplicationByUser(
+      message.author.id
+    );
+
+  // ❌ No hay postulación activa.
+  // mdTickets.js podrá encargarse del mensaje.
+  if (
+    !application ||
+    !(
+      application.status === "active" ||
+      application.status === "in_progress"
+    )
+  ) {
+    return false;
+  }
+
+  const type =
+    APPLICATION_TYPES[
+      application.typeKey
+    ];
+
+  if (!type) {
+    return false;
+  }
+
+  const answer =
+    message.content?.trim();
 
   if (!answer) {
     await message.reply(
-      "❌ Debes escribir una respuesta antes de continuar."
+      "❌ Debes escribir una respuesta."
     );
-    return;
+
+    return true;
   }
 
-  const answers = Array.isArray(application.answers)
-    ? application.answers
-    : [];
+  const answers =
+    Array.isArray(application.answers)
+      ? application.answers
+      : [];
 
   answers.push({
-    question: type.questions[application.currentQuestion],
-    answer
+    question:
+      type.questions[
+        application.currentQuestion
+      ],
+    answer,
+    answeredAt:
+      new Date().toISOString()
   });
 
-  const nextQuestion = application.currentQuestion + 1;
+  const nextQuestion =
+    application.currentQuestion + 1;
 
-  if (nextQuestion < type.questions.length) {
-    database.updateApplication(application.id, {
-      answers,
-      currentQuestion: nextQuestion
-    });
+  // ═══════════════════════════════════
+  // ✅ POSTULACIÓN TERMINADA
+  // ═══════════════════════════════════
+
+  if (
+    nextQuestion >= type.questions.length
+  ) {
+    database.updateApplication(
+      application.id,
+      {
+        status: "completed",
+        currentQuestion: nextQuestion,
+        answers,
+        completedAt:
+          new Date().toISOString()
+      }
+    );
+
+    await sendApplicationForReview(
+      client,
+      database.getApplication(
+        application.id
+      )
+    );
 
     await message.reply(
       [
-        `**Pregunta ${nextQuestion + 1}/${type.questions.length}:**`,
-        type.questions[nextQuestion]
+        "✅ **Postulación completada.**",
+        "",
+        "📋 Tu postulación fue enviada al equipo encargado.",
+        "📩 Te avisaremos por MD cuando haya una decisión."
       ].join("\n")
     );
 
+    return true;
+  }
+
+  // ═══════════════════════════════════
+  // ➡️ SIGUIENTE PREGUNTA
+  // ═══════════════════════════════════
+
+  database.updateApplication(
+    application.id,
+    {
+      status: "in_progress",
+      currentQuestion: nextQuestion,
+      answers
+    }
+  );
+
+  const updated =
+    database.getApplication(
+      application.id
+    );
+
+  await sendNextQuestion(
+    message.author,
+    updated
+  );
+
+  return true;
+}
+
+// ═══════════════════════════════════════
+// 📋 ENVIAR POSTULACIÓN A REVISIÓN
+// ═══════════════════════════════════════
+
+async function sendApplicationForReview(
+  client,
+  application
+) {
+  const type =
+    APPLICATION_TYPES[
+      application.typeKey
+    ];
+
+  if (!type) {
     return;
   }
 
-  database.updateApplication(application.id, {
-    answers,
-    currentQuestion: nextQuestion,
-    status: "pending"
-  });
+  const channel =
+    await client.channels.fetch(
+      getApplicationChannelId(
+        client,
+        type.channel
+      )
+    ).catch(() => null);
 
-  await sendApplicationToReviewChannel(
-    client,
-    {
-      ...application,
-      answers,
-      status: "pending"
-    },
-    type
-  );
+  // Si no se puede encontrar por ID,
+  // buscar por nombre en el servidor.
+  let targetChannel = channel;
 
-  await message.reply(
-    [
-      "✅ **Postulación completada.**",
-      "",
-      "Tu solicitud fue enviada al equipo encargado.",
-      "📋 Ahora será revisada por el personal autorizado.",
-      "",
-      "Te avisaremos por MD cuando haya una decisión."
-    ].join("\n")
-  );
-}
+  if (!targetChannel) {
+    const guild =
+      await client.guilds.fetch(
+        config.guildId
+      ).catch(() => null);
 
-async function sendApplicationToReviewChannel(
-  client,
-  application,
-  type
-) {
-  const guild = await client.guilds.fetch(config.guildId);
+    if (guild) {
+      targetChannel =
+        guild.channels.cache.find(
+          c =>
+            c.type === ChannelType.GuildText &&
+            c.name === type.channel
+        );
+    }
+  }
 
-  const channel = guild.channels.cache.find(
-    c =>
-      c.name === type.channel &&
-      c.type === ChannelType.GuildText
-  );
-
-  if (!channel) {
+  if (!targetChannel) {
     console.error(
-      `❌ No existe el canal de ${type.name}.`
+      `❌ No se encontró el canal de ${type.name}.`
     );
     return;
   }
 
-  const embed = new EmbedBuilder()
-    .setTitle(`${type.emoji} Nueva postulación — ${type.name}`)
-    .setDescription(
-      `👤 **Postulante:** <@${application.userId}>\n🆔 **ID:** \`${application.userId}\``
-    )
-    .setFooter({
-      text: "KING SUPPORT • Revisión de postulaciones"
-    });
+  const answers =
+    application.answers || [];
 
-  const fields = application.answers.map(
-    (item, index) => ({
-      name: `${index + 1}. ${item.question}`,
-      value: item.answer.slice(0, 1024) || "Sin respuesta"
-    })
-  );
+  const answerText =
+    answers
+      .map(
+        (item, index) =>
+          `**${index + 1}. ${item.question}**\n${item.answer}`
+      )
+      .join("\n\n");
 
-  embed.addFields(fields);
+  const embed =
+    new EmbedBuilder()
+      .setTitle(
+        `${type.emoji} Nueva postulación • ${type.name}`
+      )
+      .setDescription(
+        [
+          `👤 **Usuario:** <@${application.userId}>`,
+          `🆔 **ID:** ${application.userId}`,
+          "",
+          answerText
+        ].join("\n")
+      )
+      .setColor(0x5865f2)
+      .setTimestamp();
 
-  const buttons = new ActionRowBuilder().addComponents(
-    new ButtonBuilder()
-      .setCustomId(`application_accept:${application.id}`)
-      .setLabel("Aceptar")
-      .setEmoji("✅")
-      .setStyle(ButtonStyle.Success),
+  const row =
+    new ActionRowBuilder()
+      .addComponents(
+        new ButtonBuilder()
+          .setCustomId(
+            `application_accept_${application.id}`
+          )
+          .setLabel("Aceptar")
+          .setEmoji("✅")
+          .setStyle(ButtonStyle.Success),
 
-    new ButtonBuilder()
-      .setCustomId(`application_reject:${application.id}`)
-      .setLabel("Rechazar")
-      .setEmoji("❌")
-      .setStyle(ButtonStyle.Danger)
-  );
+        new ButtonBuilder()
+          .setCustomId(
+            `application_reject_${application.id}`
+          )
+          .setLabel("Rechazar")
+          .setEmoji("❌")
+          .setStyle(ButtonStyle.Danger)
+      );
 
-  await channel.send({
+  await targetChannel.send({
     embeds: [embed],
-    components: [buttons]
+    components: [row]
   });
 }
+
+// ═══════════════════════════════════════
+// 🔎 OBTENER CANAL
+// ═══════════════════════════════════════
+
+function getApplicationChannelId(
+  client,
+  channelName
+) {
+  const guild =
+    client.guilds.cache.get(
+      config.guildId
+    );
+
+  if (!guild) {
+    return null;
+  }
+
+  const channel =
+    guild.channels.cache.find(
+      c =>
+        c.type === ChannelType.GuildText &&
+        c.name === channelName
+    );
+
+  return channel?.id || null;
+}
+
+// ═══════════════════════════════════════
+// ⚖️ DECISIÓN DE POSTULACIÓN
+// ═══════════════════════════════════════
 
 async function decideApplication(
   interaction,
   applicationId,
   accepted
 ) {
+  const member =
+    interaction.member;
+
   if (
-    !interaction.member?.roles?.cache?.has(
+    !member ||
+    !member.roles.cache.has(
       config.roles.postulationReview
     )
   ) {
-    return interaction.reply({
+    await interaction.reply({
       content:
-        "❌ No tienes permiso para aceptar o rechazar postulaciones.",
+        "❌ No tienes permiso para revisar postulaciones.",
       ephemeral: true
     });
+
+    return true;
   }
 
-  const application = database.getApplication(
-    applicationId
-  );
+  const application =
+    database.getApplication(
+      applicationId
+    );
 
   if (!application) {
-    return interaction.reply({
-      content: "❌ No encontré esta postulación.",
+    await interaction.reply({
+      content:
+        "❌ No se encontró la postulación.",
       ephemeral: true
     });
+
+    return true;
   }
 
-  if (application.status !== "pending") {
-    return interaction.reply({
-      content: "❌ Esta postulación ya fue procesada.",
+  if (
+    application.status !== "completed"
+  ) {
+    await interaction.reply({
+      content:
+        "❌ Esta postulación ya fue procesada o todavía no está terminada.",
       ephemeral: true
     });
+
+    return true;
   }
 
-  const newStatus = accepted
-    ? "accepted"
-    : "rejected";
+  const newStatus =
+    accepted
+      ? "accepted"
+      : "rejected";
 
-  database.updateApplication(applicationId, {
-    status: newStatus,
-    reviewedBy: interaction.user.id,
-    reviewedAt: new Date().toISOString()
-  });
+  database.updateApplication(
+    applicationId,
+    {
+      status: newStatus,
+      decidedBy: interaction.user.id,
+      decidedAt:
+        new Date().toISOString()
+    }
+  );
 
-  const user = await interaction.client.users
-    .fetch(application.userId)
-    .catch(() => null);
+  const user =
+    await interaction.client.users.fetch(
+      application.userId
+    ).catch(() => null);
 
   if (user) {
-    await user.send(
-      accepted
-        ? [
-            "🎉 **Tu postulación ha sido aceptada.**",
-            "",
-            `Tu postulación para **${application.type}** fue aceptada.`,
-            "",
-            `👮 Revisor: <@${interaction.user.id}>`,
-            "",
-            "¡Bienvenido al equipo de King the Land! 👑"
-          ].join("\n")
-        : [
-            "❌ **Tu postulación ha sido rechazada.**",
-            "",
-            `Tu postulación para **${application.type}** no fue aceptada en esta ocasión.`,
-            "",
-            `👮 Revisor: <@${interaction.user.id}>`,
-            "",
-            "Gracias por haber participado."
-          ].join("\n")
-    ).catch(() => {});
+    if (accepted) {
+      await user.send(
+        [
+          "🎉 **¡Tu postulación fue aceptada!**",
+          "",
+          `👑 Área: **${application.type}**`,
+          "",
+          "El equipo ha aprobado tu postulación."
+        ].join("\n")
+      ).catch(() => {});
+    } else {
+      await user.send(
+        [
+          "❌ **Tu postulación fue rechazada.**",
+          "",
+          `📋 Área: **${application.type}**`,
+          "",
+          "Gracias por participar en el proceso."
+        ].join("\n")
+      ).catch(() => {});
+    }
   }
+
+  const resultText =
+    accepted
+      ? "✅ **ACEPTADA**"
+      : "❌ **RECHAZADA**";
+
+  const oldEmbed =
+    interaction.message?.embeds?.[0];
+
+  const updatedEmbed =
+    oldEmbed
+      ? EmbedBuilder.from(oldEmbed)
+          .setColor(
+            accepted
+              ? 0x57f287
+              : 0xed4245
+          )
+          .addFields({
+            name: "📋 Resultado",
+            value: resultText,
+            inline: true
+          })
+          .addFields({
+            name: "👮 Revisado por",
+            value: `<@${interaction.user.id}>`,
+            inline: true
+          })
+      : new EmbedBuilder()
+          .setTitle(
+            `📋 Postulación ${application.type}`
+          )
+          .setDescription(
+            resultText
+          );
 
   await interaction.update({
-    embeds: [
-      ...interaction.message.embeds
-    ],
-    components: [],
-    content: accepted
-      ? "✅ **POSTULACIÓN ACEPTADA**"
-      : "❌ **POSTULACIÓN RECHAZADA**"
+    embeds: [updatedEmbed],
+    components: []
   });
+
+  return true;
 }
 
-async function handleInteraction(interaction) {
-  if (interaction.isStringSelectMenu()) {
-    if (interaction.customId === "application_type") {
-      return startApplication(
-        interaction,
-        interaction.values[0]
-      );
-    }
+// ═══════════════════════════════════════
+// 🖱️ INTERACCIONES
+// ═══════════════════════════════════════
+
+async function handleInteraction(
+  interaction
+) {
+  if (
+    interaction.isStringSelectMenu() &&
+    interaction.customId ===
+      "application_select"
+  ) {
+    const type =
+      interaction.values[0];
+
+    return await startApplication(
+      interaction,
+      type
+    );
   }
 
-  if (interaction.isButton()) {
-    if (
-      interaction.customId.startsWith(
-        "application_accept:"
-      )
-    ) {
-      const applicationId =
-        interaction.customId.split(":")[1];
-
-      return decideApplication(
-        interaction,
-        applicationId,
-        true
+  if (
+    interaction.isButton() &&
+    interaction.customId.startsWith(
+      "application_accept_"
+    )
+  ) {
+    const applicationId =
+      interaction.customId.replace(
+        "application_accept_",
+        ""
       );
-    }
 
-    if (
-      interaction.customId.startsWith(
-        "application_reject:"
-      )
-    ) {
-      const applicationId =
-        interaction.customId.split(":")[1];
-
-      return decideApplication(
-        interaction,
-        applicationId,
-        false
-      );
-    }
+    return await decideApplication(
+      interaction,
+      applicationId,
+      true
+    );
   }
+
+  if (
+    interaction.isButton() &&
+    interaction.customId.startsWith(
+      "application_reject_"
+    )
+  ) {
+    const applicationId =
+      interaction.customId.replace(
+        "application_reject_",
+        ""
+      );
+
+    return await decideApplication(
+      interaction,
+      applicationId,
+      false
+    );
+  }
+
+  return false;
 }
+
+// ═══════════════════════════════════════
+// 📤 EXPORTACIONES
+// ═══════════════════════════════════════
 
 module.exports = {
+  APPLICATION_TYPES,
+
+  buildApplicationPanel,
+
   setupPanel,
   setupApplicationChannels,
-  handleInteraction,
+
+  startApplication,
   handleDirectMessage,
-  APPLICATION_TYPES
+  handleInteraction,
+
+  sendNextQuestion,
+  sendApplicationForReview,
+
+  decideApplication
 };
